@@ -5,12 +5,6 @@ body {
 	margin-bottom: 1000px;
 }
 
-a {
-	color: #c0c0c0;
-	text-decoration: none;
-	border-bottom: 1px dotted red;
-}
-
 #caption {
 	margin: 0px 0px 0px 30px;
 	padding: 2px 30px 3px 30px;
