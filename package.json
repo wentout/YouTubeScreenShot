@@ -1,0 +1,14 @@
+{
+	"name": "notespot",
+	"description": "YouTube ScreenShoot Example",
+	"version": "0.0.1",
+	"author": "went.out@gmail.com",
+	"engines": [
+		"node >= 0.12.0"
+	],
+	"main": "index.html",
+	"dependencies": {
+		"express": "^4.11.2",
+		"slimerjs": "^0.9.5"
+	}
+}

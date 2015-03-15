@@ -1,0 +1,28 @@
+body {
+	font-family: Verdana, Tahoma, sans;
+	background: #303030;
+	color: gray;
+	margin-bottom: 1000px;
+}
+
+a {
+	color: #c0c0c0;
+	text-decoration: none;
+	border-bottom: 1px dotted red;
+}
+
+#caption {
+	margin: 0px 0px 0px 30px;
+	padding: 2px 30px 3px 30px;
+	border: 1px solid white;
+}
+
+#start {
+	margin: 30px 10px 10px 10px;
+	font-size: 20pt;
+	border: 1px solid black;
+	border-radius: 3px;
+	background: white;
+	padding: 5px 20px 5px 22px;
+	cursor: pointer;
+}
