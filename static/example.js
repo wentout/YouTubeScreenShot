@@ -106,6 +106,8 @@ $(function(){
 					$tester.attr( 'src', path );
 				},
 				error: function(err) {
+					window.clearInterval(showReqCaptionInt);
+					showReqCaptionInt = null;
 					$caption.html( 'Server answered with an ERROR...' );
 				}
 			});

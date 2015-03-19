@@ -30,9 +30,11 @@ try {
 		
 		page.viewportSize = viewportSize;
 		
+		var captureCount = 0;
 		var captureYT = function(cb) {
 			setTimeout(function () {
 				
+				captureCount++;
 				playerController = page.evaluate(function () {
 					// var player = yt.player.getPlayerByElement('player');
 					var player = window.embedYTplayerReadyController;
@@ -40,8 +42,10 @@ try {
 				});
 				
 				if (playerController.playVideo) {
+					console.log('player is here: ' + captureCount);
 					cb();
 				} else {
+					console.log('no player counting: ' + captureCount);
 					captureYT(cb);
 				}
 				
@@ -58,14 +62,22 @@ try {
 			page.close();
 			callback(fileURL);
 		};
+		var checkTimeCount = 0;
 		var checkTime = function() {
+			checkTimeCount++;
 			var ct = playerController.getCurrentTime();
 			if (ct > 0 && ct >= time + 2) {
 				makeCapture();
 			} else {
 				if (ct == 0) {
-					playerController.playVideo();
-					playerController.seekTo(time);
+					if (checkTimeCount < 10) {
+						playerController.playVideo();
+						playerController.seekTo(time);
+						setTimeout(checkTime, 1000);
+					} else {
+						console.log('no player movement in proper time');
+						makeCapture();
+					}
 				} else {
 					setTimeout(checkTime, 100);
 				}
