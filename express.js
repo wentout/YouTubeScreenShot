@@ -32,8 +32,8 @@ app.use(bodyParser.urlencoded({
 
 app.post( '/screenshot', function(req, res) {
 	
-	var time = req.body.time;
-	var id = req.body.id;
+	var time = req.body.time.slice(0,100);
+	var id = req.body.id.slice(0,20);
 	
 	console.log(id, time);
 	
