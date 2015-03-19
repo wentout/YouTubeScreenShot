@@ -11,7 +11,7 @@ body {
 	border: 1px solid white;
 }
 
-#start {
+#url, #urlbutton, #startbutton {
 	margin: 30px 10px 10px 10px;
 	font-size: 20pt;
 	border: 1px solid black;
@@ -20,3 +20,13 @@ body {
 	padding: 5px 20px 5px 22px;
 	cursor: pointer;
 }
+#url {
+	cursor: text;
+}
+
+
+#urlbox, #startbox {
+	margin: 5px;
+	padding: 10px;
+}
+

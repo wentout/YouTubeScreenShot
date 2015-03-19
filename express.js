@@ -23,18 +23,32 @@ var options = {
 	agent: false
 };
 
-app.get( '/screenshot/:time', function(req, res) {
-	console.log(req.params.time);
+app.use( express.static( p.join( __dirname, 'static') ) );
+
+var bodyParser = require('body-parser');
+app.use(bodyParser.urlencoded({
+	extended: true
+}));
+
+app.post( '/screenshot', function(req, res) {
 	
-	options.path = '/s/' + req.params.time;
+	var time = req.body.time;
+	var id = req.body.id;
+	
+	console.log(id, time);
+	
+	options.path = '/s/' + id + '/' + time;
 	var request = http.request(options, function(response) {
 		
 		var body = '';
 		var status = 0 + response.statusCode;
+		
 		response.setEncoding('utf8');
+		
 		response.on('data', function (chunk) {
 			body += chunk.toString();
 		});
+		
 		response.on('end', function() {
 			if (status == 200) {
 				var path = body.replace(/^\n\>/, '');
@@ -46,12 +60,14 @@ app.get( '/screenshot/:time', function(req, res) {
 		});
 
 	});
+	
 	request.on('error', function(err){
 		res.status(502).send('error');
 	});
+	
 	request.end();
 	
 });
-app.use( express.static( p.join( __dirname, 'static') ) );
+
 
 module.exports = app;

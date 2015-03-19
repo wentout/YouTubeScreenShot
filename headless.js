@@ -1,8 +1,13 @@
 'use strict';
 try {
 
-	var alpabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+	// var url = 'https://www.youtube.com/embed/GNZBSZD16cY?autoplay=1&t=10';
+	// var url = 'https://www.youtube.com/embed/GNZBSZD16cY';
+	// var url = 'https://www.youtube.com/embed/';
+	// var url = 'https://www.youtube.com/watch?v=';
+	var url = 'http://localhost:3000/embed.html#';
 
+	var alpabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 	var randStr = function (len) {
 		!len && (len = 8);
 		var str = '';
@@ -12,7 +17,7 @@ try {
 		return str;
 	};
 
-	var makeScreenshot = function(time, callback) {
+	var makeScreenshot = function(id, time, callback) {
 		
 		var playerController = null;
 		
@@ -23,16 +28,14 @@ try {
 			console.log(message, stack);
 		};
 		
-		// var url = 'https://www.youtube.com/embed/GNZBSZD16cY?autoplay=1&t=10';
-		var url = 'https://www.youtube.com/embed/GNZBSZD16cY';
-		
 		page.viewportSize = viewportSize;
 		
 		var captureYT = function(cb) {
 			setTimeout(function () {
 				
 				playerController = page.evaluate(function () {
-					var player = yt.player.getPlayerByElement('player');
+					// var player = yt.player.getPlayerByElement('player');
+					var player = window.embedYTplayerReadyController;
 					return player;
 				});
 				
@@ -42,7 +45,7 @@ try {
 					captureYT(cb);
 				}
 				
-			}, 100);
+			}, 1000);
 		};
 		
 		var saveFileName = randStr(32) + '.png';
@@ -60,12 +63,16 @@ try {
 			if (ct > 0 && ct >= time + 2) {
 				makeCapture();
 			} else {
-				setTimeout(checkTime, 10);
+				if (ct == 0) {
+					playerController.playVideo();
+					playerController.seekTo(time);
+				} else {
+					setTimeout(checkTime, 100);
+				}
 			}
 		};
 		var startCapture = function() {
 			playerController.seekTo(time);
-			// playerController.playVideo();
 			setTimeout(function(){
 				checkTime();
 			}, 2000);
@@ -78,7 +85,8 @@ try {
 				console.log("The loading has failed");
 			}
 		};
-		page.open(url);
+		// console.log(url + id);
+		page.open(url + id);
 		
 	};
 	
@@ -94,20 +102,25 @@ try {
 	
 	webserverTest.listen('127.0.0.1:3082', function (req, res) {
 		var str = '' + req.url;
+		console.log(str);
 		var split = str.split(/\//g);
-		if (split.length == 3 && split[1] == 's') {
-			var time = parseFloat(split[2]) - 2;
+		if (split.length == 4 && split[1] == 's') {
+			var time = parseFloat(split[3]) - 2;
 			if (time < 0) {
 				time = 0;
 			}
-			console.log('time: ' + time, split[2]);
-			makeScreenshot(time, function(fileName){
+			var id = split[2];
+			// console.log('id: ' + id);
+			// console.log('time: ' + time);
+			makeScreenshot(id, time, function(fileName){
 				makeResponse(res, fileName);
 			});
 		} else {
 			makeResponse(res);
 		}
 	});
+	
+	console.log('Slimer confirms Start');
 
 } catch (err) {
 	
