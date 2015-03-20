@@ -13,7 +13,7 @@ var slimerjs = require('slimerjs');
 // console.log(process.cwd());
 
 // to run slimmer or not
-if (false) {
+if (true) {
 // if (true) {
 	// for debug
 	// childProcess.exec( slimerjs.path + ' ' + path.join(process.cwd(), 'headless.js'), function(err, stdout, stderr){
