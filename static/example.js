@@ -15,7 +15,7 @@ $(function(){
 	
 	var getUrlVideoId = function() {
 		var val = $url.val();
-		if (/^[https|http]:\/\/[www.]*youtube.com\/watch\?v=[.]{0,11}/.test(val)) {
+		if (/^(https|http):\/\/[www.]*youtube.com\/watch\?v=[.]{0,11}/.test(val)) {
 			return val.split('v=')[1].split('&')[0];
 		} else {
 			alert('No Video ID in given URL!');
